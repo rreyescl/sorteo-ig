@@ -1,0 +1,134 @@
+<div class="navbar">
+  <a
+    style="cursor: pointer"
+    *ngFor="let seccion of secciones"
+    (click)="scrollToSection(seccion)"
+    [routerLink]
+    [fragment]="seccion"
+    [routerLinkActive]="'active'"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    {{ seccion }}
+  </a>
+</div>
+
+<section [id]="secciones[0]" style="height: 100%; background-color: black">
+  <mat-grid-list cols="3" rowHeight="100%">
+    <mat-grid-tile colspan="1" rowspan="1">
+      <img
+        src="../../../assets/img/bassricky.jpg"
+        class="full-width-height-img"
+        alt=""
+      />
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="1" rowspan="1">
+      <img
+        src="../../../assets/img/evento.png"
+        style="height: 100%; width: 100%"
+        alt=""
+      />
+     
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="1" rowspan="1">
+      <img
+        src="../../../assets/img/boris.png"
+        class="full-width-height-img"
+        alt=""
+      />
+    </mat-grid-tile>
+  </mat-grid-list>
+</section>
+
+<section [id]="secciones[1]" >
+  <h1 style="text-align: center">PARTICIPANTES</h1>
+  <div class="table-container" *ngIf="participantes">
+    <table mat-table [dataSource]="participantes" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef># COMENTARIO</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="cuentaComentario">
+        <th mat-header-cell *matHeaderCellDef>Cuenta</th>
+        <td mat-cell *matCellDef="let element">
+          <a target="_blank" href="{{ element.igComentario }}"
+            >{{ element.cuentaComentario }}
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cuentaEtiquetada">
+        <th mat-header-cell *matHeaderCellDef>Cuenta Etiquetada</th>
+        <td mat-cell *matCellDef="let element">
+          <a target="_blank" href="{{ element.igAcompanante }}">
+            {{ element.cuentaEtiquetada }}
+          </a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 25]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </table>
+  </div>
+</section>
+
+<section [id]="secciones[2]" class="inverted-section" style="height: 100%;">
+    <H1 style="text-align: center;">EMPECEMOS A TIRAR COMENTARIOS AL AGUA!!</H1>
+  <mat-grid-list cols="3" rowHeight="250px">
+    <mat-grid-tile>
+      <br />
+      <div *ngIf="alAgua" >
+        <br />
+        <h2>Participante al agua actual:</h2>
+        <p>ID: {{ alAgua.id }}</p>
+        <p>Cuenta de Comentario: {{ alAgua.cuentaComentario }}</p>
+        <p>IG Comentario: {{ alAgua.igComentario }}</p>
+        <p>Cuenta Etiquetada: {{ alAgua.cuentaEtiquetada }}</p>
+        <p>IG Acompañante: {{ alAgua.igAcompanante }}</p>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <div *ngIf="participantesAlAgua.length < 3">
+        <button mat-raised-button (click)="obtenerAlAgua()">AL AGUA</button>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <div *ngIf="participantesAlAgua.length > 0">
+        <h1>Listado en el Agua:</h1>
+        <ul>
+          <li *ngFor="let item of participantesAlAgua">
+            {{ item.id }} - {{ item.cuentaComentario }} -
+            {{ item.cuentaEtiquetada }}
+          </li>
+        </ul>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</section>
+
+<section [id]="secciones[3]">
+    <h1 style="text-align: center;">QUIEN SERÁ???</h1>
+  <mat-grid-list cols="3" rowHeight="250px">
+    <mat-grid-tile>
+        <div *ngIf="ganador">
+            <h1>GANADORES!</h1>
+            <h1>{{ganador.id}}</h1>
+            
+            <h1><a target="_blank" href="{{ganador.igComentario}}">{{ganador.cuentaComentario}}</a> </h1>
+            <h1><a target="_blank" href="{{ganador.igAcompanante}}">{{ganador.cuentaEtiquetada}}</a></h1>
+        </div>
+      </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-raised-button (click)="realizarSorteo()" [disabled]="ganador">
+        DAME AL GANADOR CARAJO!!
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</section>
